@@ -5,7 +5,7 @@ env:
     x :  30
     y :  30
   horizon: 40
-  node_weight: "bimodal" #"constant" # "entropy" constant, linear, bimodal, gp, entropy, steiner_covering, entropy
+  node_weight: "steiner_covering" #"constant" # "entropy" constant, linear, bimodal, gp, entropy, steiner_covering, entropy
   disc_size: "small" # large
   n_players : 3
   Cx_lengthscale : 2

@@ -1,0 +1,12 @@
+torch
+torchvision
+torchaudio
+numpy
+scipy
+scikit-learn
+matplotlib
+jupyter
+jupyterlab
+ipykernel
+ipywidgets
+numba

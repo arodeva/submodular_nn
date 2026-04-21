@@ -11,8 +11,8 @@ import torch
 import wandb
 
 workspace = os.getcwd()
-print(workspace)
-print(sys.path)
+# print(workspace)
+# print(sys.path)
 
 wandb.init(project="submodular-nn")
 
@@ -25,7 +25,6 @@ args = parser.parse_args()
 
 with open(os.path.join(workspace, "params", args.param + ".yaml")) as file:
     params = yaml.load(file, Loader=yaml.FullLoader)
-print(params)
 
 horizon = params["env"]["horizon"] # horizon
 epochs = params["alg"]["epochs"]
@@ -75,7 +74,8 @@ for episode in range(epochs):
     if params["env"]["node_weight"] == "GP":
         environment.env.weight = data
 
-    state = (environment.reset().squeeze(), environment.env.get_prize_cnt(environment.mat_state))
+    # state = (environment.reset().squeeze(), environment.env.get_prize_cnt(environment.mat_state))
+    state = environment.reset().squeeze()
     total_reward = 0
     total_loss = 0
     # agent.eps = 0
@@ -87,8 +87,11 @@ for episode in range(epochs):
         action = agent.select_action(state)
         next_state, reward, done, info = environment.step(action)
         next_state = next_state.squeeze()
+        print("state", state.shape)
+        print("next state", next_state.shape)
 
         agent.replay_memory.add(state, action, reward, next_state, done)
+
         state = next_state
         total_reward += reward
 

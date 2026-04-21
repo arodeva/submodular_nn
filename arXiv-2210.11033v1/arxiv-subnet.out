@@ -1,0 +1,39 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Our contributions}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Related work}{}% 3
+\BOOKMARK [1][-]{section.3}{Design of FlexSubNet}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Notation and preliminary results}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Monotone submodular functions}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.3}{Monotone\205submodular functions}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.4}{Non-monotone submodular functions}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.5}{Neural parameterization of m, , , }{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.6}{Parameter estimation from \(set, value\) pairs}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{Differentiable subset selection}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Learning F from \(perimeter-set, high-value-subset\)}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.2}{Probabilistic greedy model}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.3}{Proposed approach}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{Experiments}{}% 15
+\BOOKMARK [2][-]{subsection.5.1}{Training by \(set, value\) pairs}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.2}{Training by \(perimeter-set, high-value-subset\)}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 18
+\BOOKMARK [1][-]{appendix.A}{Potential limitations of our work}{}% 19
+\BOOKMARK [1][-]{appendix.B}{Proofs of the technical results for Section 3}{}% 20
+\BOOKMARK [2][-]{subsection.B.1}{Formal justification of the submodularity of FlexSubNet given by Eq. \(1\)}{appendix.B}% 21
+\BOOKMARK [2][-]{subsection.B.2}{Proof of Theorem 2}{appendix.B}% 22
+\BOOKMARK [2][-]{subsection.B.3}{Proof of proposition 3}{appendix.B}% 23
+\BOOKMARK [2][-]{subsection.B.4}{Proof of Proposition 4}{appendix.B}% 24
+\BOOKMARK [2][-]{subsection.B.5}{Formal result showing that F computed using Eq. \(2\) is -submodular}{appendix.B}% 25
+\BOOKMARK [1][-]{appendix.C}{Decoupling integrals for -submodular and non-monotone submodular functions}{}% 26
+\BOOKMARK [1][-]{appendix.D}{Additional details about experiments on learning from \(set, value\) pairs}{}% 27
+\BOOKMARK [2][-]{subsection.D.1}{Additional details about the data generation}{appendix.D}% 28
+\BOOKMARK [2][-]{subsection.D.2}{Implementation details of FlexSubNet}{appendix.D}% 29
+\BOOKMARK [2][-]{subsection.D.3}{Implementation details of the baselines}{appendix.D}% 30
+\BOOKMARK [2][-]{subsection.D.4}{Computation of \040in synthetically planted functions}{appendix.D}% 31
+\BOOKMARK [1][-]{appendix.E}{Additional experiments with synthetic data}{}% 32
+\BOOKMARK [1][-]{appendix.F}{Additional details about experiments on subset selection for product recommendation}{}% 33
+\BOOKMARK [2][-]{subsection.F.1}{Dataset description}{appendix.F}% 34
+\BOOKMARK [2][-]{subsection.F.2}{Implementation details}{appendix.F}% 35
+\BOOKMARK [2][-]{subsection.F.3}{License}{appendix.F}% 36
+\BOOKMARK [1][-]{appendix.G}{Additional experiments on real data}{}% 37
+\BOOKMARK [2][-]{subsection.G.1}{Replication of Table 2 with standard deviation}{appendix.G}% 38
+\BOOKMARK [2][-]{subsection.G.2}{Efficiency }{appendix.G}% 39

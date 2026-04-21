@@ -85,9 +85,12 @@ class MonotoneSubmodularNet(nn.Module):
 
     def clamp_weights(self):
         with torch.no_grad():
-            # for net in self.phi:
-            #     net.clamp_weights()
-            self.phi.clamp_weights()
+            if isinstance(self.phi, nn.ModuleList):
+                for net in self.phi:
+                    net.clamp_weights()
+            else:
+                self.phi.clamp_weights()
+
     
 class PartialInputConcaveNN(nn.Module):
     def __init__(self, u_layers, z_layers, device="cpu"):

@@ -34,15 +34,23 @@ def facility_location_fn(S, V):
 def graph_cut_fn(S, V, sigma=0.1):
     # F(S) = sum_{u in V, v in S} u^T v - sigma * sum_{u,v in S} u^T v
     # V_mat = torch.stack(V)  # (|V|, d)
-    print(len(S))
     S_mat = torch.stack(S)  # (|S|, d)
     
     cut = (V @ S_mat.T).sum()
+    if sigma == 0.0:
+        return cut
+
     internal = (S_mat @ S_mat.T).sum()
 
     return cut - sigma * internal
     # cut = sum(torch.dot(u, v) for u in V for v in S)
     # ternal = sum(torch.dot(u, v) for u in S for v in S)
+
+def small_monotone_graph_cut_fn(S, V):
+    return monotone_graph_cut_fn(S, V) / 1e6
+
+def log_graph_cut_fn(S, V):
+    return torch.log(graph_cut_fn(S, V, sigma=0.0) + 1e-6)
 
 def monotone_graph_cut_fn(S, V):
     return graph_cut_fn(S, V, sigma=0.1)
@@ -50,6 +58,9 @@ def monotone_graph_cut_fn(S, V):
 # graph cut with higher sigma for non-monotone behavior
 def non_monotone_graph_cut_fn(S, V):
     return monotone_graph_cut_fn(S, V, sigma=0.8)
+
+def toy_graph_cut_fn(S, V):
+    return graph_cut_fn(S, V, sigma=0.0) # no internal penalty, just cut
 
 class SubmodularSetDataset(Dataset):
     """Dataset of submodular subsets using prefix generation.
@@ -59,6 +70,7 @@ class SubmodularSetDataset(Dataset):
     (V_1..V_N).
 
     Args:
+    s
         V (torch.Tensor): (N, d) tensor of element features.
         function_name (str): which function to evaluate ('log','logdet','fl','gcut').
         precomputed_data (torch.Tensor or None): optional precomputed x matrix (num_examples, N).
@@ -80,7 +92,10 @@ class SubmodularSetDataset(Dataset):
             "logdet": logdet_fn,
             "fl": facility_location_fn,
             "monotone_gcut": monotone_graph_cut_fn,
-            "non_monotone_gcut": non_monotone_graph_cut_fn
+            "non_monotone_gcut": non_monotone_graph_cut_fn,
+            "toy_gcut": toy_graph_cut_fn,
+            "log_gcut": log_graph_cut_fn,
+            "small_monotone_gcut": small_monotone_graph_cut_fn 
         }
         self.f = funcs[function_name]
 
@@ -179,18 +194,22 @@ class MonotoneSubmodularSetNet(nn.Module):
             for layer in self.m:
                 layer.weight.data.clamp_(0)
 
-def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_dataset=False):
+def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True):
+    if seed is not None:
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
+
     n = int(1e4)
     d = 10
     V = torch.rand(n, d) # we have n elements, each of which are from 0 to 1 in d dimensions
-    # print(V[0])
 
     # dataset caching: load if path exists and not regenerating
     if dataset_path is not None and os.path.exists(dataset_path) and not regenerate_dataset:
         print(f"Loading dataset from {dataset_path}")
         dataset = SubmodularSetDataset.load_from_file(dataset_path)
     else:
-        dataset = SubmodularSetDataset(V, function_name)
+        dataset = SubmodularSetDataset(V, function_name, use_binary=use_binary)
         if dataset_path is not None:
             print(f"Saving generated dataset to {dataset_path}")
             dataset.save(dataset_path)
@@ -215,22 +234,17 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     criterion = nn.MSELoss()
-    
-    wandb.init(project="submodular_nn", config={"function": function_name, "phi_layers": phi_layers, "lamb": lamb})
 
-    source_code = wandb.Artifact("source_code", type="python-file")
-    source_code.add_file(__file__)
-    source_code.add_file("dqn.py")
-    wandb.log_artifact(source_code)
+    num_epochs = 500
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs, eta_min=1e-5) if use_scheduler else None
 
-    dataset = wandb.Artifact(f"{function_name}_dataset", type="dataset")
-    dataset.add_file(dataset_path)
-    wandb.log_artifact(dataset)
-
-    num_epochs = int(3e2)
+    # wandb run is owned by run_trials(); train() just logs into it
+    last_n_epochs = 10
 
     # first_hard_enforced = num_epochs // 2
     first_hard_enforced = 0
+    best_val_rmse = float('inf')
+    best_model_state = None
     cfg = {
         "function": function_name,
         "phi_layers": phi_layers,
@@ -242,8 +256,10 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
         "d": d,
         "batch_size": batch_size,
         "learning_rate": learning_rate,
-    "num_epochs": num_epochs,
+        "weight_decay": weight_decay,
+        "num_epochs": num_epochs,
         "dataset_path": dataset_path,
+        "use_scheduler": use_scheduler,
     }
     # update the run config (allows changing values later)
     wandb.config.update(cfg, allow_val_change=True)
@@ -309,52 +325,88 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
         val_mse = val_mse_sum / len(val_dataset)
         val_rmse = math.sqrt(val_mse)
 
-        print(f"Epoch {epoch+1}/{num_epochs} - Train Loss: {epoch_loss:.4f}, Val Loss: {val_loss:.4f} | Train RMSE: {epoch_rmse:.4f}, Val RMSE: {val_rmse:.4f}")
+        # track best model over last 10 epochs
+        if epoch >= num_epochs - last_n_epochs:
+            if val_rmse < best_val_rmse:
+                best_val_rmse = val_rmse
+                best_model_state = {k: v.clone() for k, v in model.state_dict().items()}
+
+        print(f"Epoch {epoch}/{num_epochs} - Train Loss: {epoch_loss:.4f}, Val Loss: {val_loss:.4f} | Train RMSE: {epoch_rmse:.4f}, Val RMSE: {val_rmse:.4f}")
+        if scheduler is not None:
+            scheduler.step()
+
         wandb.log({
-            "epoch": epoch + 1,
-            "Train Loss": epoch_loss,
-            "Val Loss": val_loss,
-            "Train RMSE": epoch_rmse,
-            "Val RMSE": val_rmse,
+            "epoch": epoch,
+            f"trial_{trial_idx}/Train RMSE": epoch_rmse,
+            f"trial_{trial_idx}/Val RMSE": val_rmse,
+            f"trial_{trial_idx}/LR": optimizer.param_groups[0]["lr"],
         })
-        # time.sleep(2)
-    
+
+    model.load_state_dict(best_model_state)
+    print(f"Loaded best model from last {last_n_epochs} epochs with Val RMSE: {best_val_rmse:.4f}")
+
     for i in model.m:
         print(i.weight)
         print(torch.all(i.weight >= 0).item())
 
-    # Final evaluation on the test set: compute both regular loss (MSE + reg)
-    # and RMSE (MSE only)
+    # Final evaluation on the test set using best model
     model.eval()
-    test_total_loss = 0.0
     test_mse_sum = 0.0
-    test_reg_sum = 0.0
     with torch.no_grad():
         for batch_X, batch_y in test_loader:
             outputs = model(batch_X)
             mse_loss = criterion(outputs.squeeze(), batch_y)
-            reg_loss = concavity_regularizer(model.phi, strength=num_epochs, func="square")
-            test_total_loss += (mse_loss.item() + reg_loss) * batch_X.size(0)
             test_mse_sum += mse_loss.item() * batch_X.size(0)
-            test_reg_sum += reg_loss * batch_X.size(0)
-            # print the expected vs predicted for first 5 in batch
-            print("Predicted vs Actual:")
-            for pred, actual in zip(outputs.squeeze()[:5], batch_y[:5]):
-                print(f"{pred.item():.4f} vs {actual.item():.4f}")
-    test_loss_final = test_total_loss / len(test_dataset)
-    test_mse_final = test_mse_sum / len(test_dataset)
-    test_rmse_final = math.sqrt(test_mse_final)
+    test_rmse_final = math.sqrt(test_mse_sum / len(test_dataset))
 
-    print(f"Final Test - Regular Loss (MSE+reg): {test_loss_final:.4f}, Test RMSE: {test_rmse_final:.4f}")
-    wandb.log({
-        "Final Test Loss": test_loss_final,
-        "Final Test RMSE": test_rmse_final,
+    print(f"Final Test RMSE: {test_rmse_final:.4f}")
+    wandb.log({f"trial_{trial_idx}/Test RMSE": test_rmse_final})
+    return test_rmse_final
+
+def run_trials(function_name, n_trials=5, learning_rate=5e-4, weight_decay=1e-4, use_binary=True, regenerate_dataset=False, use_scheduler=True):
+    suffix = "feature" if not use_binary else "binary"
+    dataset_path = os.path.join(os.path.dirname(__file__), "cached_datasets", f"{function_name}_{suffix}.pt")
+    seeds = [42 + i for i in range(n_trials)]
+
+    wandb.init(project="submodular_nn", config={
+        "function": function_name,
+        "n_trials": n_trials,
+        "learning_rate": learning_rate,
+        "weight_decay": weight_decay,
+        "use_binary": use_binary,
+        "use_scheduler": use_scheduler,
     })
 
+    results = []
+    for i, seed in enumerate(seeds):
+        print(f"\n=== Trial {i+1}/{n_trials} (seed={seed}) ===")
+        rmse = train(
+            function_name=function_name,
+            learning_rate=learning_rate,
+            weight_decay=weight_decay,
+            dataset_path=dataset_path,
+            regenerate_dataset=(regenerate_dataset and i == 0),
+            use_binary=use_binary,
+            seed=seed,
+            trial_idx=i,
+            use_scheduler=use_scheduler,
+        )
+        results.append(rmse)
+        print(f"Trial {i+1} Test RMSE: {rmse:.4f}")
+
+    mean = np.mean(results)
+    std = np.std(results)
+    print(f"\n=== Results over {n_trials} trials ===")
+    print(f"Test RMSE: {mean:.4f} ± {std:.4f}")
+    wandb.summary["Mean Test RMSE"] = mean
+    wandb.summary["Std Test RMSE"] = std
+    wandb.finish()
+    return mean, std
+
 if __name__ == "__main__":
-    function_name = "monotone_gcut"  # choose from 'log', 'logdet', 'fl', 'gcut'
-    dataset_path = os.path.join(os.path.dirname(__file__), "cached_datasets", f"{function_name}.pt")
-    train(dataset_path=dataset_path, function_name=function_name, learning_rate=1e-3, regenerate_dataset=True)
+    function_name = "logdet"
+    use_binary = True
+    run_trials(function_name=function_name, n_trials=5, learning_rate=2e-3, weight_decay=1e-4, use_binary=use_binary, regenerate_dataset=False, use_scheduler=False)
 
 
 

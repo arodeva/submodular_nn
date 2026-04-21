@@ -1,0 +1,606 @@
+\begin{thebibliography}{91}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bach(2011)]{bach2}
+Francis Bach.
+\newblock Learning with submodular functions: A convex optimization
+  perspective.
+\newblock \emph{arXiv preprint arXiv:1111.6453}, 2011.
+
+\bibitem[Badanidiyuru et~al.(2014)Badanidiyuru, Mirzasoleiman, Karbasi, and
+  Krause]{badanidiyuru2014streaming}
+Ashwinkumar Badanidiyuru, Baharan Mirzasoleiman, Amin Karbasi, and Andreas
+  Krause.
+\newblock Streaming submodular maximization: Massive data summarization on the
+  fly.
+\newblock In \emph{Proceedings of the 20th ACM SIGKDD international conference
+  on Knowledge discovery and data mining}, pages 671--680, 2014.
+
+\bibitem[Bai et~al.(2018)Bai, Noble, and Bilmes]{bai2018submodular}
+Wenruo Bai, William~S Noble, and Jeff~A Bilmes.
+\newblock Submodular maximization via gradient ascent: the case of deep
+  submodular functions.
+\newblock \emph{Advances in neural information processing systems},
+  2018:\penalty0 7989, 2018.
+
+\bibitem[Bairi et~al.(2015)Bairi, Iyer, Ramakrishnan, and
+  Bilmes]{bairi2015summarization}
+Ramakrishna Bairi, Rishabh Iyer, Ganesh Ramakrishnan, and Jeff Bilmes.
+\newblock Summarization of multi-document topic hierarchies using submodular
+  mixtures.
+\newblock In \emph{ACL}, pages 553--563, 2015.
+
+\bibitem[Balcan and Harvey(2010)]{b1}
+Maria-Florina Balcan and Nicholas~JA Harvey.
+\newblock Submodular functions: Learnability, structure, and optimization.
+\newblock \emph{arXiv preprint arXiv:1008.2159}, 2010.
+
+\bibitem[Balcan and Harvey(2011)]{balcan2011learning}
+Maria-Florina Balcan and Nicholas~JA Harvey.
+\newblock Learning submodular functions.
+\newblock In \emph{Proceedings of the forty-third annual ACM symposium on
+  Theory of computing}, pages 793--802, 2011.
+
+\bibitem[Bilmes and Bai(2017)]{bilmes2017deep}
+Jeffrey Bilmes and Wenruo Bai.
+\newblock Deep submodular functions.
+\newblock \emph{arXiv preprint arXiv:1701.08939}, 2017.
+
+\bibitem[Borodin(2009)]{borodin2009determinantal}
+Alexei Borodin.
+\newblock Determinantal point processes.
+\newblock \emph{arXiv preprint arXiv:0911.1153}, 2009.
+
+\bibitem[Cuturi(2013)]{cuturi2013sinkhorn}
+Marco Cuturi.
+\newblock Sinkhorn distances: Lightspeed computation of optimal transport.
+\newblock \emph{Advances in neural information processing systems},
+  26:\penalty0 2292--2300, 2013.
+
+\bibitem[Dasgupta et~al.(2013)Dasgupta, Kumar, and
+  Ravi]{dasgupta2013summarization}
+Anirban Dasgupta, Ravi Kumar, and Sujith Ravi.
+\newblock Summarization through submodularity and dispersion.
+\newblock In \emph{Proceedings of the 51st Annual Meeting of the Association
+  for Computational Linguistics (Volume 1: Long Papers)}, pages 1014--1022,
+  2013.
+
+\bibitem[De et~al.(2016)De, Valera, Ganguly, Bhattacharya, and
+  Gomez~Rodriguez]{de2016learning}
+Abir De, Isabel Valera, Niloy Ganguly, Sourangshu Bhattacharya, and Manuel
+  Gomez~Rodriguez.
+\newblock Learning and forecasting opinion dynamics in social networks.
+\newblock \emph{Advances in neural information processing systems}, 29, 2016.
+
+\bibitem[De et~al.(2018{\natexlab{a}})De, Bhattacharya, and
+  Ganguly]{de2018demarcating}
+Abir De, Sourangshu Bhattacharya, and Niloy Ganguly.
+\newblock Demarcating endogenous and exogenous opinion diffusion process on
+  social networks.
+\newblock In \emph{Proceedings of the 2018 World Wide Web Conference}, pages
+  549--558, 2018{\natexlab{a}}.
+
+\bibitem[De et~al.(2018{\natexlab{b}})De, Bhattacharya, and
+  Ganguly]{de2018shaping}
+Abir De, Sourangshu Bhattacharya, and Niloy Ganguly.
+\newblock Shaping opinion dynamics in social networks.
+\newblock In \emph{Proceedings of the 17th international conference on
+  autonomous agents and multiagent systems}, pages 1336--1344,
+  2018{\natexlab{b}}.
+
+\bibitem[De et~al.(2019)De, Bhattacharya, Bhattacharya, Ganguly, and
+  Chakrabarti]{de2019learning}
+Abir De, Sourangshu Bhattacharya, Parantapa Bhattacharya, Niloy Ganguly, and
+  Soumen Chakrabarti.
+\newblock Learning linear influence models in social networks from transient
+  opinion dynamics.
+\newblock \emph{ACM Transactions on the Web (TWEB)}, 13\penalty0 (3):\penalty0
+  1--33, 2019.
+
+\bibitem[De et~al.(2020)De, Koley, Ganguly, and Gomez-Rodriguez]{ruha}
+Abir De, Paramita Koley, Niloy Ganguly, and Manuel Gomez-Rodriguez.
+\newblock Regression under human assistance.
+\newblock \emph{AAAI}, 2020.
+
+\bibitem[De et~al.(2021)De, Okati, Zarezade, and Gomez-Rodriguez]{cuha}
+Abir De, Nastaran Okati, Ali Zarezade, and Manuel Gomez-Rodriguez.
+\newblock Classification under human assistance.
+\newblock \emph{AAAI}, 2021.
+
+\bibitem[De()]{demaximum}
+Indradyumna Roy Soumen Chakrabarti~Abir De.
+\newblock Maximum common subgraph guided graph retrieval: Late and early
+  interaction networks.
+
+\bibitem[Devlin et~al.(2018)Devlin, Chang, Lee, and Toutanova]{devlin2018bert}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\newblock Bert: Pre-training of deep bidirectional transformers for language
+  understanding.
+\newblock \emph{arXiv preprint arXiv:1810.04805}, 2018.
+
+\bibitem[Du et~al.(2012)Du, Lu, and Xu]{du2012primal}
+Donglei Du, Ruixing Lu, and Dachuan Xu.
+\newblock A primal-dual approximation algorithm for the facility location
+  problem with submodular penalties.
+\newblock \emph{Algorithmica}, 63\penalty0 (1):\penalty0 191--200, 2012.
+
+\bibitem[Durga et~al.(2021)Durga, Iyer, Ramakrishnan, and
+  De]{durga2021training}
+S~Durga, Rishabh Iyer, Ganesh Ramakrishnan, and Abir De.
+\newblock Training data subset selection for regression with controlled
+  generalization error.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  9202--9212. PMLR, 2021.
+
+\bibitem[El~Halabi and Jegelka(2020)]{el2020optimal}
+Marwa El~Halabi and Stefanie Jegelka.
+\newblock Optimal approximation for unconstrained non-submodular minimization.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  3961--3972. PMLR, 2020.
+
+\bibitem[Elenberg et~al.(2016)Elenberg, Khanna, Dimakis, and
+  Negahban]{elenberg2016restricted}
+Ethan~R Elenberg, Rajiv Khanna, Alexandros~G Dimakis, and Sahand Negahban.
+\newblock Restricted strong convexity implies weak submodularity.
+\newblock \emph{arXiv preprint arXiv:1612.00804}, 2016.
+
+\bibitem[Feldman and Vondr{\'a}k(2016)]{b2}
+Vitaly Feldman and Jan Vondr{\'a}k.
+\newblock Optimal bounds on approximation of submodular and xos functions by
+  juntas.
+\newblock \emph{SIAM Journal on Computing}, 45\penalty0 (3):\penalty0
+  1129--1170, 2016.
+
+\bibitem[Flanders(1973)]{flanders1973differentiation}
+Harley Flanders.
+\newblock Differentiation under the integral sign.
+\newblock \emph{The American Mathematical Monthly}, 80\penalty0 (6):\penalty0
+  615--627, 1973.
+
+\bibitem[Frieze(1974)]{frieze1974cost}
+Alan~M Frieze.
+\newblock A cost function property for plant location problems.
+\newblock \emph{Mathematical Programming}, 7\penalty0 (1):\penalty0 245--248,
+  1974.
+
+\bibitem[Fujishige(2005)]{csm1}
+Satoru Fujishige.
+\newblock \emph{Submodular functions and optimization}.
+\newblock Elsevier, 2005.
+
+\bibitem[Fujishige and Iwata(1999)]{csm2}
+Satoru Fujishige and Satoru Iwata.
+\newblock Minimizing a submodular function arising from a concave function.
+\newblock \emph{Discrete applied mathematics}, 92\penalty0 (2-3):\penalty0
+  211--215, 1999.
+
+\bibitem[Ghadiri et~al.(2020)Ghadiri, Santiago, and Shepherd]{oss2}
+Mehrdad Ghadiri, Richard Santiago, and Bruce Shepherd.
+\newblock A parameterized family of meta-submodular functions.
+\newblock \emph{arXiv preprint arXiv:2006.13754}, 2020.
+
+\bibitem[Ghadiri et~al.(2021)Ghadiri, Santiago, and Shepherd]{oss1}
+Mehrdad Ghadiri, Richard Santiago, and Bruce Shepherd.
+\newblock Beyond submodular maximization via one-sided smoothness.
+\newblock In \emph{Proceedings of the 2021 ACM-SIAM Symposium on Discrete
+  Algorithms (SODA)}, pages 1006--1025. SIAM, 2021.
+
+\bibitem[Gillenwater et~al.(2014)Gillenwater, Kulesza, Fox, and
+  Taskar]{gillenwater2014expectation}
+Jennifer~A Gillenwater, Alex Kulesza, Emily Fox, and Ben Taskar.
+\newblock Expectation-maximization for learning determinantal point processes.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  27:\penalty0 3149--3157, 2014.
+
+\bibitem[Goemans et~al.(2009)Goemans, Harvey, Iwata, and Mirrokni]{reb}
+Michel~X Goemans, Nicholas~JA Harvey, Satoru Iwata, and Vahab Mirrokni.
+\newblock Approximating submodular functions everywhere.
+\newblock In \emph{Proceedings of the twentieth annual ACM-SIAM symposium on
+  Discrete algorithms}, pages 535--544. SIAM, 2009.
+
+\bibitem[Gupta et~al.(2021)Gupta, Marla, Sun, Shukla, and
+  Kolbeinsson]{Gupta2021PenDerShape}
+Akhil Gupta, Lavanya Marla, Ruoyu Sun, Naman Shukla, and Arinbj{\"o}rn
+  Kolbeinsson.
+\newblock Pender: Incorporating shape constraints via penalized derivatives.
+\newblock In \emph{AAAI}, 2021.
+\newblock URL \url{https://www.aaai.org/AAAI21Papers/AAAI-9099.GuptaA.pdf}.
+
+\bibitem[Gupta et~al.(2020)Gupta, Ilan, Mangylov, Morioka, Narayan, and
+  Zhao]{Gupta2020MultiShape}
+Maya~R. Gupta, Erez~Louidor Ilan, Olexander Mangylov, Nobuyuki Morioka, Taman
+  Narayan, and Sen Zhao.
+\newblock Multidimensional shape constraints.
+\newblock In \emph{ICML}, 2020.
+\newblock URL \url{http://proceedings.mlr.press/v119/gupta20b/gupta20b.pdf}.
+
+\bibitem[Hamilton et~al.(2017)Hamilton, Ying, and
+  Leskovec]{hamilton2017inductive}
+Will Hamilton, Zhitao Ying, and Jure Leskovec.
+\newblock Inductive representation learning on large graphs.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  1024--1034, 2017.
+
+\bibitem[Hashemi et~al.(2019)Hashemi, Ghasemi, Vikalo, and
+  Topcu]{hashemi2019submodular}
+Abolfazl Hashemi, Mahsa Ghasemi, Haris Vikalo, and Ufuk Topcu.
+\newblock Submodular observation selection and information gathering for
+  quadratic models.
+\newblock \emph{arXiv preprint arXiv:1905.09919}, 2019.
+
+\bibitem[Hornik et~al.(1989)Hornik, Stinchcombe, and
+  White]{hornik1989multilayer}
+Kurt Hornik, Maxwell Stinchcombe, and Halbert White.
+\newblock Multilayer feedforward networks are universal approximators.
+\newblock \emph{Neural networks}, 2\penalty0 (5):\penalty0 359--366, 1989.
+
+\bibitem[Iyer et~al.(2021)Iyer, Khargoankar, Bilmes, and
+  Asanani]{iyer2021submodular}
+Rishabh Iyer, Ninad Khargoankar, Jeff Bilmes, and Himanshu Asanani.
+\newblock Submodular combinatorial information measures with applications in
+  machine learning.
+\newblock In \emph{Algorithmic Learning Theory}, pages 722--754. PMLR, 2021.
+
+\bibitem[Jaccard(1901)]{jaccard}
+Paul Jaccard.
+\newblock {\ 'E} comparative study of floral distribution in a portion of the
+  alps and jura.
+\newblock \emph{Bull Soc Vaudoise Sci Nat}, 37:\penalty0 547--579, 1901.
+
+\bibitem[Jegelka and Bilmes(2009)]{jegelka2009notes}
+Stefanie Jegelka and Jeff Bilmes.
+\newblock Notes on graph cuts with submodular edge weights.
+\newblock In \emph{NIPS 2009 Workshop on Discrete Optimization in Machine
+  Learning: Submodularity, Sparsity Polyhedra (DISCML)}, pages 1--6, 2009.
+
+\bibitem[Jegelka and Bilmes(2010)]{jegelka2010cooperative}
+Stefanie Jegelka and Jeff Bilmes.
+\newblock Cooperative cuts: Graph cuts with submodular edge weights.
+\newblock 2010.
+
+\bibitem[Jegelka and Bilmes(2011)]{jegelka2011submodularity}
+Stefanie Jegelka and Jeff Bilmes.
+\newblock Submodularity beyond submodular energies: coupling edges in graph
+  cuts.
+\newblock In \emph{CVPR 2011}, pages 1897--1904. IEEE, 2011.
+
+\bibitem[Karalias et~al.(2021)Karalias, Robinson, Loukas, and
+  Jegelka]{karalias2021neural}
+Nikolaos Karalias, Joshua~David Robinson, Andreas Loukas, and Stefanie Jegelka.
+\newblock Neural extensions: Training neural networks with set functions.
+\newblock 2021.
+
+\bibitem[Kempe et~al.(2003)Kempe, Kleinberg, and Tardos]{kempe2003maximizing}
+David Kempe, Jon Kleinberg, and {\'E}va Tardos.
+\newblock Maximizing the spread of influence through a social network.
+\newblock In \emph{Proceedings of the ninth ACM SIGKDD international conference
+  on Knowledge discovery and data mining}, pages 137--146, 2003.
+
+\bibitem[Khanna et~al.(2017)Khanna, Elenberg, Dimakis, Negahban, and
+  Ghosh]{khanna2017scalable}
+Rajiv Khanna, Ethan Elenberg, Alexandros~G Dimakis, Sahand Negahban, and
+  Joydeep Ghosh.
+\newblock Scalable greedy feature selection via weak submodularity.
+\newblock \emph{arXiv preprint arXiv:1703.02723}, 2017.
+
+\bibitem[Killamsetty et~al.(2021{\natexlab{a}})Killamsetty, Sivasubramanian,
+  Mirzasoleiman, Ramakrishnan, De, and Iyer]{killamsetty2021grad}
+Krishnateja Killamsetty, Durga Sivasubramanian, Baharan Mirzasoleiman, Ganesh
+  Ramakrishnan, Abir De, and Rishabh Iyer.
+\newblock Grad-match: A gradient matching based data subset selection for
+  efficient learning.
+\newblock \emph{arXiv preprint arXiv:2103.00123}, 2021{\natexlab{a}}.
+
+\bibitem[Killamsetty et~al.(2021{\natexlab{b}})Killamsetty, Subramanian,
+  Ramakrishnan, and Iyer]{killamsetty2020glister}
+Krishnateja Killamsetty, Durga Subramanian, Ganesh Ramakrishnan, and Rishabh
+  Iyer.
+\newblock Glister: A generalization based data selection framework for
+  efficient and robust learning.
+\newblock \emph{In AAAI}, 2021{\natexlab{b}}.
+
+\bibitem[Kipf and Welling(2016)]{kipf2016semi}
+Thomas~N Kipf and Max Welling.
+\newblock Semi-supervised classification with graph convolutional networks.
+\newblock \emph{arXiv preprint arXiv:1609.02907}, 2016.
+
+\bibitem[Kobyzev et~al.(2021)Kobyzev, Prince, and
+  Brubaker]{Kobyzev2021NormalizingFlows}
+Ivan Kobyzev, Simon Prince, and Marcus~A. Brubaker.
+\newblock Normalizing flows: An introduction and review of current methods.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 43:\penalty0 3964--3979, 2021.
+\newblock URL \url{http://arxiv.org/pdf/1908.09257}.
+
+\bibitem[Koley et~al.(2021)Koley, Saha, Bhattacharya, Ganguly, and
+  De]{koley2021demarcating}
+Paramita Koley, Avirup Saha, Sourangshu Bhattacharya, Niloy Ganguly, and Abir
+  De.
+\newblock Demarcating endogenous and exogenous opinion dynamics: An
+  experimental design approach.
+\newblock \emph{arXiv preprint arXiv:2102.05954}, 2021.
+
+\bibitem[Kothawade et~al.(2020)Kothawade, Girdhar, Lavania, and
+  Iyer]{kothawade2020deep}
+Suraj Kothawade, Jiten Girdhar, Chandrashekhar Lavania, and Rishabh Iyer.
+\newblock Deep submodular networks for extractive data summarization.
+\newblock \emph{arXiv preprint arXiv:2010.08593}, 2020.
+
+\bibitem[Lee et~al.(2019)Lee, Lee, Kim, Kosiorek, Choi, and Teh]{lee2019set}
+Juho Lee, Yoonho Lee, Jungtaek Kim, Adam Kosiorek, Seungjin Choi, and Yee~Whye
+  Teh.
+\newblock Set transformer: A framework for attention-based
+  permutation-invariant neural networks.
+\newblock In \emph{ICML}, 2019.
+
+\bibitem[Lin and Bilmes(2011)]{lin2011class}
+Hui Lin and Jeff Bilmes.
+\newblock A class of submodular functions for document summarization.
+\newblock In \emph{Proceedings of the 49th annual meeting of the association
+  for computational linguistics: human language technologies}, pages 510--520,
+  2011.
+
+\bibitem[Lin and Bilmes(2012)]{lin2012learning}
+Hui Lin and Jeff~A Bilmes.
+\newblock Learning mixtures of submodular shells with application to document
+  summarization.
+\newblock \emph{arXiv preprint arXiv:1210.4871}, 2012.
+
+\bibitem[Lov{\'a}sz(1983)]{lovas0}
+L{\'a}szl{\'o} Lov{\'a}sz.
+\newblock Submodular functions and convexity.
+\newblock In \emph{Mathematical programming the state of the art}, pages
+  235--257. Springer, 1983.
+
+\bibitem[Lu et~al.(2017)Lu, Pu, Wang, Hu, and Wang]{lu2017expressive}
+Zhou Lu, Hongming Pu, Feicheng Wang, Zhiqiang Hu, and Liwei Wang.
+\newblock The expressive power of neural networks: A view from the width.
+\newblock \emph{Advances in neural information processing systems}, 30, 2017.
+
+\bibitem[Manupriya et~al.(2022)Manupriya, Ram~Menta, Jagarlapudi, and
+  Balasubramanian]{pmlr-v151-manupriya22a}
+Piyushi Manupriya, Tarun Ram~Menta, Sakethanath~N. Jagarlapudi, and Vineeth~N.
+  Balasubramanian.
+\newblock Improving attribution methods by learning submodular functions.
+\newblock In Gustau Camps-Valls, Francisco J.~R. Ruiz, and Isabel Valera,
+  editors, \emph{Proceedings of The 25th International Conference on Artificial
+  Intelligence and Statistics}, volume 151 of \emph{Proceedings of Machine
+  Learning Research}, pages 2173--2190. PMLR, 28--30 Mar 2022.
+\newblock URL \url{https://proceedings.mlr.press/v151/manupriya22a.html}.
+
+\bibitem[Mena et~al.(2018)Mena, Belanger, Linderman, and
+  Snoek]{mena2018learning}
+Gonzalo Mena, David Belanger, Scott Linderman, and Jasper Snoek.
+\newblock Learning latent permutations with gumbel-sinkhorn networks.
+\newblock \emph{arXiv preprint arXiv:1802.08665}, 2018.
+
+\bibitem[Mirchandani and Francis(1990)]{mirchandani1990discrete}
+Pitu~B Mirchandani and Richard~L Francis.
+\newblock \emph{Discrete location theory}.
+\newblock 1990.
+
+\bibitem[Nemhauser et~al.(1978)Nemhauser, Wolsey, and
+  Fisher]{nemhauser1978analysis}
+George~L Nemhauser, Laurence~A Wolsey, and Marshall~L Fisher.
+\newblock An analysis of approximations for maximizing submodular set
+  functions—i.
+\newblock \emph{Mathematical programming}, 14\penalty0 (1):\penalty0 265--294,
+  1978.
+
+\bibitem[Okati et~al.(2021)Okati, De, and Rodriguez]{okati2021differentiable}
+Nastaran Okati, Abir De, and Manuel Rodriguez.
+\newblock Differentiable learning under triage.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  34:\penalty0 9140--9151, 2021.
+
+\bibitem[Ortiz-Astorquiza et~al.(2015)Ortiz-Astorquiza, Contreras, and
+  Laporte]{ortiz2015multi}
+Camilo Ortiz-Astorquiza, Ivan Contreras, and Gilbert Laporte.
+\newblock Multi-level facility location as the maximization of a submodular set
+  function.
+\newblock \emph{European Journal of Operational Research}, 247\penalty0
+  (3):\penalty0 1013--1016, 2015.
+
+\bibitem[Pabbaraju and Jain(2019)]{prateek}
+Chirag Pabbaraju and Prateek Jain.
+\newblock Learning functions over sets via permutation adversarial networks.
+\newblock \emph{arXiv preprint arXiv:1907.05638}, 2019.
+\newblock URL \url{https://arxiv.org/pdf/1907.05638}.
+
+\bibitem[Powers et~al.(2018)Powers, Fakoor, Shakeri, Sethy, Kainth, Mohamed,
+  and Sarikaya]{powers2018differentiable}
+Thomas Powers, Rasool Fakoor, Siamak Shakeri, Abhinav Sethy, Amanjit Kainth,
+  Abdel-rahman Mohamed, and Ruhi Sarikaya.
+\newblock Differentiable greedy networks.
+\newblock \emph{arXiv preprint arXiv:1810.12464}, 2018.
+
+\bibitem[Qi et~al.(2017)Qi, Su, Mo, and Guibas]{qi2017pointnet}
+Charles~R Qi, Hao Su, Kaichun Mo, and Leonidas~J Guibas.
+\newblock Pointnet: Deep learning on point sets for 3d classification and
+  segmentation.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 652--660, 2017.
+
+\bibitem[Ravanbakhsh et~al.(2016)Ravanbakhsh, Schneider, and
+  Poczos]{ravanbakhsh2016deep}
+Siamak Ravanbakhsh, Jeff Schneider, and Barnabas Poczos.
+\newblock Deep learning with sets and point clouds.
+\newblock \emph{arXiv preprint arXiv:1611.04500}, 2016.
+
+\bibitem[Ren et~al.(2018)Ren, Zeng, Yang, and Urtasun]{ren2018learning}
+Mengye Ren, Wenyuan Zeng, Bin Yang, and Raquel Urtasun.
+\newblock Learning to reweight examples for robust deep learning.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  4334--4343, 2018.
+
+\bibitem[Rezatofighi et~al.(2020)Rezatofighi, Kaskman, Motlagh, Shi, Milan,
+  Cremers, Leal-Taix{\'e}, and Reid]{rezatofighi2020learn}
+Hamid Rezatofighi, Roman Kaskman, Farbod~T Motlagh, Qinfeng Shi, Anton Milan,
+  Daniel Cremers, Laura Leal-Taix{\'e}, and Ian Reid.
+\newblock Learn to predict sets using feed-forward neural networks.
+\newblock \emph{arXiv preprint arXiv:2001.11845}, 2020.
+
+\bibitem[Roy et~al.(2021)Roy, De, and Chakrabarti]{permgnn}
+Indradyumna Roy, Abir De, and Soumen Chakrabarti.
+\newblock Adversarial permutation guided node representations for link
+  prediction.
+\newblock In \emph{arXiv:2012.08974}, 2021.
+
+\bibitem[Roy et~al.(2022)Roy, Velugoti, Chakrabarti, and
+  De]{roy2022interpretable}
+Indradyumna Roy, Venkata Sai Baba~Reddy Velugoti, Soumen Chakrabarti, and Abir
+  De.
+\newblock Interpretable neural subgraph matching for graph retrieval.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~36, pages 8115--8123, 2022.
+
+\bibitem[Sakaue(2021)]{sakaue2021differentiable}
+Shinsaku Sakaue.
+\newblock Differentiable greedy algorithm for monotone submodular maximization:
+  Guarantees, gradient estimators, and applications.
+\newblock In \emph{International Conference on Artificial Intelligence and
+  Statistics}, pages 28--36. PMLR, 2021.
+
+\bibitem[Samanta et~al.(2020)Samanta, De, Jana, G{\'o}mez, Chattaraj, Ganguly,
+  and Gomez-Rodriguez]{samanta2020nevae}
+Bidisha Samanta, Abir De, Gourhari Jana, Vicen{\c{c}} G{\'o}mez, Pratim~Kumar
+  Chattaraj, Niloy Ganguly, and Manuel Gomez-Rodriguez.
+\newblock Nevae: A deep generative model for molecular graphs.
+\newblock \emph{Journal of machine learning research. 2020 Apr; 21 (114):
+  1-33}, 2020.
+
+\bibitem[Schrijver(2003)]{schrijver2003combinatorial}
+Alexander Schrijver.
+\newblock \emph{Combinatorial optimization: polyhedra and efficiency},
+  volume~24.
+\newblock Springer Science \& Business Media, 2003.
+
+\bibitem[Shamaiah et~al.(2010)Shamaiah, Banerjee, and
+  Vikalo]{shamaiah2010greedy}
+Manohar Shamaiah, Siddhartha Banerjee, and Haris Vikalo.
+\newblock Greedy sensor selection: Leveraging submodularity.
+\newblock In \emph{49th IEEE conference on decision and control (CDC)}, pages
+  2572--2577. IEEE, 2010.
+
+\bibitem[Singla et~al.(2016)Singla, Tschiatschek, and Krause]{Singla2016}
+Adish Singla, Sebastian Tschiatschek, and Andreas Krause.
+\newblock Noisy submodular maximization via adaptive sampling with applications
+  to crowdsourced image collection summarization.
+\newblock In \emph{AAAI}, 2016.
+
+\bibitem[Sipos et~al.(2012)Sipos, Shivaswamy, and Joachims]{b3}
+Ruben Sipos, Pannaga Shivaswamy, and Thorsten Joachims.
+\newblock Large-margin learning of submodular summarization models.
+\newblock In \emph{Proceedings of the 13th Conference of the European Chapter
+  of the Association for Computational Linguistics}, pages 224--233, 2012.
+
+\bibitem[Stobbe and Krause(2010)]{csm3}
+Peter Stobbe and Andreas Krause.
+\newblock Efficient minimization of decomposable submodular functions.
+\newblock \emph{arXiv preprint arXiv:1010.5511}, 2010.
+
+\bibitem[Tschiatschek et~al.(2014)Tschiatschek, Iyer, Wei, and
+  Bilmes]{tschiatschek2014learning}
+Sebastian Tschiatschek, Rishabh~K Iyer, Haochen Wei, and Jeff~A Bilmes.
+\newblock Learning mixtures of submodular functions for image collection
+  summarization.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  1413--1421, 2014.
+
+\bibitem[Tschiatschek et~al.(2016)Tschiatschek, Djolonga, and
+  Krause]{tschiatschek2016learning}
+Sebastian Tschiatschek, Josip Djolonga, and Andreas Krause.
+\newblock Learning probabilistic submodular diversity models via noise
+  contrastive estimation.
+\newblock In \emph{Artificial Intelligence and Statistics}, pages 770--779.
+  PMLR, 2016.
+
+\bibitem[Tschiatschek et~al.(2018)Tschiatschek, Sahin, and
+  Krause]{tschiatschek2018differentiable}
+Sebastian Tschiatschek, Aytunc Sahin, and Andreas Krause.
+\newblock Differentiable submodular maximization.
+\newblock \emph{arXiv preprint arXiv:1803.01785}, 2018.
+
+\bibitem[Verma et~al.(2022)Verma, De, Agrawal, Vinay, and
+  Chakrabarti]{verma2022varscene}
+Tathagat Verma, Abir De, Yateesh Agrawal, Vishwa Vinay, and Soumen Chakrabarti.
+\newblock Varscene: A deep generative model for realistic scene graph
+  synthesis.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  22168--22183. PMLR, 2022.
+
+\bibitem[Vondr{\'a}k()]{vondraksubmodularity}
+Jan Vondr{\'a}k.
+\newblock Submodularity and curvature: the optimal algorithm.
+
+\bibitem[Wagstaff et~al.(2019)Wagstaff, Fuchs, Engelcke, Posner, and
+  Osborne]{pmlr-v97-wagstaff19a}
+Edward Wagstaff, Fabian Fuchs, Martin Engelcke, Ingmar Posner, and Michael~A.
+  Osborne.
+\newblock On the limitations of representing functions on sets.
+\newblock In \emph{Proceedings of the 36th International Conference on Machine
+  Learning}, 2019.
+
+\bibitem[Wehenkel and Louppe(2019)]{umnn}
+Antoine Wehenkel and Gilles Louppe.
+\newblock Unconstrained monotonic neural networks.
+\newblock \emph{NeurIPS}, 2019.
+
+\bibitem[Wei et~al.(2015)Wei, Iyer, and Bilmes]{wei2015submodularity}
+Kai Wei, Rishabh Iyer, and Jeff Bilmes.
+\newblock Submodularity in data subset selection and active learning.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  1954--1963, 2015.
+
+\bibitem[Yu and Blaschko(2015)]{lovas1}
+Jiaqian Yu and Matthew Blaschko.
+\newblock Learning submodular losses with the lov{\'a}sz hinge.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  1623--1631. PMLR, 2015.
+
+\bibitem[Zaheer et~al.(2017)Zaheer, Kottur, Ravanbakhsh, Poczos, Salakhutdinov,
+  and Smola]{zaheer2017deep}
+Manzil Zaheer, Satwik Kottur, Siamak Ravanbakhsh, Barnabas Poczos, Ruslan
+  Salakhutdinov, and Alexander Smola.
+\newblock Deep sets.
+\newblock \emph{arXiv preprint arXiv:1703.06114}, 2017.
+
+\bibitem[Zarezade et~al.(2017)Zarezade, De, Rabiee, and
+  Rodriguez]{zarezade2017cheshire}
+Ali Zarezade, Abir De, Hamid Rabiee, and Manuel~Gomez Rodriguez.
+\newblock Cheshire: An online algorithm for activity maximization in social
+  networks.
+\newblock \emph{arXiv preprint arXiv:1703.02059}, 2017.
+
+\bibitem[Zhang and Vorobeychik(2016)]{zhang2016submodular}
+Haifeng Zhang and Yevgeniy Vorobeychik.
+\newblock Submodular optimization with routing constraints.
+\newblock In \emph{Proceedings of the AAAI conference on artificial
+  intelligence}, volume~30, 2016.
+
+\bibitem[Zhang et~al.(2021)Zhang, Iyer, Tendulkar, Aggarwal, and
+  De]{zhang2021learning}
+Ping Zhang, Rishabh Iyer, Ashish Tendulkar, Gaurav Aggarwal, and Abir De.
+\newblock Learning to select exogenous events for marked temporal point
+  process.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  34:\penalty0 347--361, 2021.
+
+\bibitem[Zhang et~al.(2019)Zhang, Hare, and Prugel-Bennett]{zhang2019deep}
+Yan Zhang, Jonathon Hare, and Adam Prugel-Bennett.
+\newblock Deep set prediction networks.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  32:\penalty0 3212--3222, 2019.
+
+\bibitem[Zhang and Sabuncu(2018)]{zhang2018generalized}
+Zhilu Zhang and Mert Sabuncu.
+\newblock Generalized cross entropy loss for training deep neural networks with
+  noisy labels.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  8778--8788, 2018.
+
+\end{thebibliography}

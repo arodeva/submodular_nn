@@ -5,10 +5,10 @@ from copy import copy
 from datetime import datetime
 from operator import itemgetter
 
-import gpytorch
-from botorch.models import SingleTaskGP
-from gpytorch.kernels import ScaleKernel, MaternKernel
-import dill as pickle
+# import gpytorch
+# from botorch.models import SingleTaskGP
+# from gpytorch.kernels import ScaleKernel, MaternKernel
+# import dill as pickle
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -1480,9 +1480,7 @@ class GridWorldGym(gym.Env):
         self.action_space = spaces.Discrete(5)
         self.observation_space = spaces.Box(low=0, high=100, shape=(500,2), dtype=np.float32) # batch size of 500, this is probably bad practice but how was originally implemented in paper
 
-
         self.env.get_horizon_transition_matrix()
-
         self.env.initialize()
     
     def reset(self):
@@ -1495,13 +1493,15 @@ class GridWorldGym(gym.Env):
         self.t = 0 # current step 
         self.prize_cnt = []
 
-        batch_state = self.env.state[-1].reshape(-1, 1).float()
+        # batch_state = self.env.state[-1].reshape(-1, 1).float()
+        batch_state = self.mat_state[-1].reshape(-1, 1).float()
         batch_state = torch.cat(
             [batch_state, 0 * torch.ones_like(batch_state)], 1) # append time index to the state
-
+        
         return batch_state.numpy()
 
     def step(self, action):
+        self.t += 1 # advance time step 
         self.env.step(self.t, action.to(torch.int32))
         self.mat_state.append(self.env.state)
         self.prize_cnt.append(self.env.get_prize_cnt(self.mat_state))
@@ -1515,8 +1515,6 @@ class GridWorldGym(gym.Env):
 
         done = (self.t == self.env.horizon - 1)
         info = {"prize_cnt": self.prize_cnt[-1]}
-
-        self.t += 1 # advance time step 
 
         return batch_state.numpy(), marginal_reward, done, info
 
