@@ -60,14 +60,7 @@ class MonotoneSubmodularNet(nn.Module):
         # Try: One phi layer for every m layer
         for i in range(m_layers):
             self.phi.append(IncreasingConcaveNet(phi_layers, device=device))
-            layers = []
-            layers.append(nn.Linear(m_size, 10))
-            layers.append(nn.ReLU())
-            layers.append(nn.Linear(10, 10))
-            layers.append(nn.ReLU())
-            layers.append(nn.Linear(10, 1))
-            layers.append(nn.Softplus()) # smooth alternative to relu 
-            self.m.append(nn.Sequential(*layers))
+            self.m.append(nn.Linear(m_size, 1, bias=False))
     
     def forward(self, x):
         batch_x = torch.unsqueeze(x, -1)

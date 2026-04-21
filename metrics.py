@@ -129,7 +129,10 @@ class SubmodularSetDataset(Dataset):
 
         # stack into tensors and set n_subsets to N for compatibility
         self.data = torch.stack(data_list)
-        self.labels = torch.tensor(labels_list).float()
+        labels = torch.tensor(labels_list).float()
+        # scale labels to [0, 10], matching De et al.
+        l_min, l_max = labels.min(), labels.max()
+        self.labels = 10.0 * (labels - l_min) / (l_max - l_min + 1e-8)
         self.n_subsets = self.N
 
     def save(self, path):
@@ -194,7 +197,7 @@ class MonotoneSubmodularSetNet(nn.Module):
             for layer in self.m:
                 layer.weight.data.clamp_(0)
 
-def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True):
+def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True):
     if seed is not None:
         torch.manual_seed(seed)
         np.random.seed(seed)
@@ -202,17 +205,19 @@ def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=Non
 
     n = int(1e4)
     d = 10
-    V = torch.rand(n, d) # we have n elements, each of which are from 0 to 1 in d dimensions
+    V = torch.abs(torch.randn(n, d))  # half-normal, matching De et al.
 
     # dataset caching: load if path exists and not regenerating
     if dataset_path is not None and os.path.exists(dataset_path) and not regenerate_dataset:
         print(f"Loading dataset from {dataset_path}")
         dataset = SubmodularSetDataset.load_from_file(dataset_path)
     else:
+        print("Starting dataset generation...")
         dataset = SubmodularSetDataset(V, function_name, use_binary=use_binary)
         if dataset_path is not None:
             print(f"Saving generated dataset to {dataset_path}")
             dataset.save(dataset_path)
+        print("Finished generating")
     batch_size = 32
 
     # split into train / val / test = 1/3 each
@@ -256,7 +261,6 @@ def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=Non
         "d": d,
         "batch_size": batch_size,
         "learning_rate": learning_rate,
-        "weight_decay": weight_decay,
         "num_epochs": num_epochs,
         "dataset_path": dataset_path,
         "use_scheduler": use_scheduler,
@@ -326,7 +330,7 @@ def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=Non
         val_rmse = math.sqrt(val_mse)
 
         # track best model over last 10 epochs
-        if epoch >= num_epochs - last_n_epochs:
+        if epoch >= 1:
             if val_rmse < best_val_rmse:
                 best_val_rmse = val_rmse
                 best_model_state = {k: v.clone() for k, v in model.state_dict().items()}
@@ -343,7 +347,7 @@ def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=Non
         })
 
     model.load_state_dict(best_model_state)
-    print(f"Loaded best model from last {last_n_epochs} epochs with Val RMSE: {best_val_rmse:.4f}")
+    print(f"Loaded best model (val RMSE: {best_val_rmse:.4f})")
 
     for i in model.m:
         print(i.weight)
@@ -363,7 +367,7 @@ def train(function_name, learning_rate=1e-3, weight_decay=1e-4, dataset_path=Non
     wandb.log({f"trial_{trial_idx}/Test RMSE": test_rmse_final})
     return test_rmse_final
 
-def run_trials(function_name, n_trials=5, learning_rate=5e-4, weight_decay=1e-4, use_binary=True, regenerate_dataset=False, use_scheduler=True):
+def run_trials(function_name, n_trials=5, learning_rate=1e-3, use_binary=True, regenerate_dataset=False, use_scheduler=True):
     suffix = "feature" if not use_binary else "binary"
     dataset_path = os.path.join(os.path.dirname(__file__), "cached_datasets", f"{function_name}_{suffix}.pt")
     seeds = [42 + i for i in range(n_trials)]
@@ -372,7 +376,6 @@ def run_trials(function_name, n_trials=5, learning_rate=5e-4, weight_decay=1e-4,
         "function": function_name,
         "n_trials": n_trials,
         "learning_rate": learning_rate,
-        "weight_decay": weight_decay,
         "use_binary": use_binary,
         "use_scheduler": use_scheduler,
     })
@@ -383,7 +386,6 @@ def run_trials(function_name, n_trials=5, learning_rate=5e-4, weight_decay=1e-4,
         rmse = train(
             function_name=function_name,
             learning_rate=learning_rate,
-            weight_decay=weight_decay,
             dataset_path=dataset_path,
             regenerate_dataset=(regenerate_dataset and i == 0),
             use_binary=use_binary,
@@ -404,9 +406,9 @@ def run_trials(function_name, n_trials=5, learning_rate=5e-4, weight_decay=1e-4,
     return mean, std
 
 if __name__ == "__main__":
-    function_name = "logdet"
+    function_name = "log"
     use_binary = True
-    run_trials(function_name=function_name, n_trials=5, learning_rate=2e-3, weight_decay=1e-4, use_binary=use_binary, regenerate_dataset=False, use_scheduler=False)
+    run_trials(function_name=function_name, n_trials=5, learning_rate=2e-3, use_binary=use_binary, regenerate_dataset=False, use_scheduler=False)
 
 
 
