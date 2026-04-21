@@ -197,7 +197,7 @@ class MonotoneSubmodularSetNet(nn.Module):
             for layer in self.m:
                 layer.weight.data.clamp_(0)
 
-def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True):
+def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True, device="cpu"):
     if seed is not None:
         torch.manual_seed(seed)
         np.random.seed(seed)
@@ -229,22 +229,19 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-    phi_layers = [1, 100, 100, 1]  # example for IncreasingConcaveNet
+    phi_layers = [1, 100, 100, 100, 1]  # example for IncreasingConcaveNet
     lamb = 0.5
     m_layers = 2
     # input size depends on representation
     m_size = dataset.N if getattr(dataset, 'use_binary', True) else dataset.d
 
-    model = MonotoneSubmodularSetNet(phi_layers, lamb, m_layers, m_size)
+    model = MonotoneSubmodularSetNet(phi_layers, lamb, m_layers, m_size).to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     criterion = nn.MSELoss()
 
     num_epochs = 500
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs, eta_min=1e-5) if use_scheduler else None
-
-    # wandb run is owned by run_trials(); train() just logs into it
-    last_n_epochs = 10
 
     # first_hard_enforced = num_epochs // 2
     first_hard_enforced = 0
@@ -282,6 +279,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
         # accumulate plain MSE (sum over examples) separately so RMSE ignores regularizer
         running_mse_sum = 0.0
         for batch_X, batch_y in train_loader:
+            batch_X, batch_y = batch_X.to(device), batch_y.to(device)
             optimizer.zero_grad()
             outputs = model(batch_X)
             # if (epoch % 10 == 0):
@@ -319,6 +317,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
         val_reg_sum = 0.0
         with torch.no_grad():
             for batch_X, batch_y in val_loader:
+                batch_X, batch_y = batch_X.to(device), batch_y.to(device)
                 outputs = model(batch_X)
                 mse_loss = criterion(outputs.squeeze(), batch_y)
                 reg_loss = concavity_regularizer(model.phi, strength=epoch, func="square")
@@ -358,6 +357,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
     test_mse_sum = 0.0
     with torch.no_grad():
         for batch_X, batch_y in test_loader:
+            batch_X, batch_y = batch_X.to(device), batch_y.to(device)
             outputs = model(batch_X)
             mse_loss = criterion(outputs.squeeze(), batch_y)
             test_mse_sum += mse_loss.item() * batch_X.size(0)
@@ -367,7 +367,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
     wandb.log({f"trial_{trial_idx}/Test RMSE": test_rmse_final})
     return test_rmse_final
 
-def run_trials(function_name, n_trials=5, learning_rate=1e-3, use_binary=True, regenerate_dataset=False, use_scheduler=True):
+def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_dataset, use_scheduler, device="cpu"):
     suffix = "feature" if not use_binary else "binary"
     dataset_path = os.path.join(os.path.dirname(__file__), "cached_datasets", f"{function_name}_{suffix}.pt")
     seeds = [42 + i for i in range(n_trials)]
@@ -378,6 +378,7 @@ def run_trials(function_name, n_trials=5, learning_rate=1e-3, use_binary=True, r
         "learning_rate": learning_rate,
         "use_binary": use_binary,
         "use_scheduler": use_scheduler,
+        "device": device,
     })
 
     results = []
@@ -392,6 +393,7 @@ def run_trials(function_name, n_trials=5, learning_rate=1e-3, use_binary=True, r
             seed=seed,
             trial_idx=i,
             use_scheduler=use_scheduler,
+            device=device,
         )
         results.append(rmse)
         print(f"Trial {i+1} Test RMSE: {rmse:.4f}")
@@ -406,9 +408,11 @@ def run_trials(function_name, n_trials=5, learning_rate=1e-3, use_binary=True, r
     return mean, std
 
 if __name__ == "__main__":
+    device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+    print(f"Using device: {device}")
     function_name = "log"
     use_binary = True
-    run_trials(function_name=function_name, n_trials=5, learning_rate=2e-3, use_binary=use_binary, regenerate_dataset=False, use_scheduler=False)
+    run_trials(function_name=function_name, n_trials=5, learning_rate=1e-3, use_binary=use_binary, regenerate_dataset=False, use_scheduler=False, device=device)
 
 
 
