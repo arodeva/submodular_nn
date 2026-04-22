@@ -1,0 +1,21 @@
+---------------------------------------
+Begin Slurm Prolog: Apr-22-2026 12:15:29
+Job ID:    5037888
+User ID:   darora61
+Account:   coc
+Job name:  submodular_nn
+Partition: ice-gpu
+QOS:       coc-ice
+---------------------------------------
+---------------------------------------
+Begin Slurm Epilog: Apr-22-2026 12:25:55
+Job ID:        5037888
+User ID:       darora61
+Account:       coc
+Job name:      submodular_nn
+Resources:     cpu=1,gres/gpu:h100=1,mem=32G,node=1
+Rsrc Used:     cput=00:10:25,vmem=0,walltime=00:10:25,mem=2839148K,energy_used=0
+Partition:     ice-gpu
+QOS:           coc-ice
+Nodes:         atl1-1-03-012-28-0
+---------------------------------------

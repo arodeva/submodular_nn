@@ -2,7 +2,7 @@
 #SBATCH --job-name=submodular_nn
 #SBATCH --output=logs/%j.out
 #SBATCH --error=logs/%j.err
-#SBATCH --time=00:10:00
+#SBATCH --time=00:40:00
 #SBATCH --gres=gpu:1
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=1
