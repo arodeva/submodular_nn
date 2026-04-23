@@ -3,8 +3,7 @@
 #SBATCH --output=logs/%j.out
 #SBATCH --error=logs/%j.err
 #SBATCH --time=00:40:00
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
+#SBATCH --mem=16G
 #SBATCH --cpus-per-task=1
 
 mkdir -p logs
@@ -19,4 +18,4 @@ cd $SLURM_SUBMIT_DIR
 
 wandb login $WANDB_API_KEY
 
-python3 metrics.py
+python3 metrics.py --function ${1:-log}
