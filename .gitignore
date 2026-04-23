@@ -2,3 +2,5 @@ __pycache__
 wandb
 .vscode
 cached_datasets
+logs
+tea_debug.log
