@@ -4,6 +4,7 @@ import torch.optim as optim
 import numpy as np
 import itertools
 import random
+import argparse
 from torch.utils.data import Dataset, DataLoader
 from dqn import IncreasingConcaveNet, concavity_regularizer
 import math
@@ -408,11 +409,22 @@ def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_da
     return mean, std
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--function", type=str, default="log", choices=["log", "logdet", "fl", "monotone_gcut"])
+    parser.add_argument("--lr", type=float, default=1e-3)
+    parser.add_argument("--n_trials", type=int, default=5)
+    parser.add_argument("--use_binary", action="store_true", default=True)
+    parser.add_argument("--use_feature", dest="use_binary", action="store_false")
+    parser.add_argument("--regenerate", action="store_true", default=False)
+    parser.add_argument("--use_scheduler", action="store_true", default=False)
+    args = parser.parse_args()
+
     device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
     print(f"Using device: {device}")
-    function_name = "log"
-    use_binary = True
-    run_trials(function_name=function_name, n_trials=5, learning_rate=1e-3, use_binary=use_binary, regenerate_dataset=False, use_scheduler=False, device=device)
+
+    run_trials(function_name=args.function, n_trials=args.n_trials, learning_rate=args.lr,
+               use_binary=args.use_binary, regenerate_dataset=args.regenerate,
+               use_scheduler=args.use_scheduler, device=device)
 
 
 
