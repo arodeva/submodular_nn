@@ -47,8 +47,6 @@ def graph_cut_fn(S, V, sigma=0.1):
     # cut = sum(torch.dot(u, v) for u in V for v in S)
     # ternal = sum(torch.dot(u, v) for u in S for v in S)
 
-def small_monotone_graph_cut_fn(S, V):
-    return monotone_graph_cut_fn(S, V) / 1e6
 
 def log_graph_cut_fn(S, V):
     return torch.log(graph_cut_fn(S, V, sigma=0.0) + 1e-6)
@@ -96,7 +94,6 @@ class SubmodularSetDataset(Dataset):
             "non_monotone_gcut": non_monotone_graph_cut_fn,
             "toy_gcut": toy_graph_cut_fn,
             "log_gcut": log_graph_cut_fn,
-            "small_monotone_gcut": small_monotone_graph_cut_fn 
         }
         self.f = funcs[function_name]
 
@@ -198,7 +195,7 @@ class MonotoneSubmodularSetNet(nn.Module):
             for layer in self.m:
                 layer.weight.data.clamp_(0)
 
-def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True, device="cpu"):
+def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_dataset=False, use_binary=True, seed=None, trial_idx=0, use_scheduler=True, device="cpu", patience=50):
     if seed is not None:
         torch.manual_seed(seed)
         np.random.seed(seed)
@@ -230,7 +227,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-    phi_layers = [1, 100, 100, 100, 1]  # example for IncreasingConcaveNet
+    phi_layers = [1, 100, 100, 100, 100, 1]  # example for IncreasingConcaveNet
     lamb = 0.5
     m_layers = 2
     # input size depends on representation
@@ -248,6 +245,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
     first_hard_enforced = 0
     best_val_rmse = float('inf')
     best_model_state = None
+    epochs_no_improve = 0
     cfg = {
         "function": function_name,
         "phi_layers": phi_layers,
@@ -313,27 +311,23 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
 
         # Evaluate on validation set (used for monitoring during training)
         model.eval()
-        val_total_loss = 0.0
         val_mse_sum = 0.0
-        val_reg_sum = 0.0
         with torch.no_grad():
             for batch_X, batch_y in val_loader:
                 batch_X, batch_y = batch_X.to(device), batch_y.to(device)
                 outputs = model(batch_X)
                 mse_loss = criterion(outputs.squeeze(), batch_y)
-                reg_loss = concavity_regularizer(model.phi, strength=epoch, func="square")
-                val_total_loss += (mse_loss.item() + reg_loss) * batch_X.size(0)
                 val_mse_sum += mse_loss.item() * batch_X.size(0)
-                val_reg_sum += reg_loss * batch_X.size(0)
-        val_loss = val_total_loss / len(val_dataset)
         val_mse = val_mse_sum / len(val_dataset)
+        val_loss = val_mse
         val_rmse = math.sqrt(val_mse)
 
-        # track best model over last 10 epochs
-        if epoch >= 1:
-            if val_rmse < best_val_rmse:
-                best_val_rmse = val_rmse
-                best_model_state = {k: v.clone() for k, v in model.state_dict().items()}
+        if val_rmse < best_val_rmse:
+            best_val_rmse = val_rmse
+            best_model_state = {k: v.clone() for k, v in model.state_dict().items()}
+            epochs_no_improve = 0
+        else:
+            epochs_no_improve += 1
 
         print(f"Epoch {epoch}/{num_epochs} - Train Loss: {epoch_loss:.4f}, Val Loss: {val_loss:.4f} | Train RMSE: {epoch_rmse:.4f}, Val RMSE: {val_rmse:.4f}")
         if scheduler is not None:
@@ -345,6 +339,10 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
             f"trial_{trial_idx}/Val RMSE": val_rmse,
             f"trial_{trial_idx}/LR": optimizer.param_groups[0]["lr"],
         })
+
+        if patience > 0 and epochs_no_improve >= patience:
+            print(f"Early stopping at epoch {epoch} (no improvement for {patience} epochs)")
+            break
 
     model.load_state_dict(best_model_state)
     print(f"Loaded best model (val RMSE: {best_val_rmse:.4f})")
@@ -368,7 +366,7 @@ def train(function_name, learning_rate=1e-3, dataset_path=None, regenerate_datas
     wandb.log({f"trial_{trial_idx}/Test RMSE": test_rmse_final})
     return test_rmse_final
 
-def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_dataset, use_scheduler, device="cpu"):
+def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_dataset, use_scheduler, device="cpu", patience=50):
     suffix = "feature" if not use_binary else "binary"
     dataset_path = os.path.join(os.path.dirname(__file__), "cached_datasets", f"{function_name}_{suffix}.pt")
     seeds = [42 + i for i in range(n_trials)]
@@ -380,6 +378,7 @@ def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_da
         "use_binary": use_binary,
         "use_scheduler": use_scheduler,
         "device": device,
+        "patience": patience,
     })
 
     results = []
@@ -395,6 +394,7 @@ def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_da
             trial_idx=i,
             use_scheduler=use_scheduler,
             device=device,
+            patience=patience,
         )
         results.append(rmse)
         print(f"Trial {i+1} Test RMSE: {rmse:.4f}")
@@ -410,13 +410,14 @@ def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_da
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--function", type=str, default="log", choices=["log", "logdet", "fl", "monotone_gcut", "small_monotone_gcut"])
+    parser.add_argument("--function", type=str, default="log", choices=["log", "logdet", "fl", "monotone_gcut"])
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--n_trials", type=int, default=5)
     parser.add_argument("--use_binary", action="store_true", default=True)
     parser.add_argument("--use_feature", dest="use_binary", action="store_false")
     parser.add_argument("--regenerate", action="store_true", default=False)
     parser.add_argument("--use_scheduler", action="store_true", default=False)
+    parser.add_argument("--patience", type=int, default=50, help="Early stopping patience (0 to disable)")
     args = parser.parse_args()
 
     device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
@@ -424,7 +425,7 @@ if __name__ == "__main__":
 
     run_trials(function_name=args.function, n_trials=args.n_trials, learning_rate=args.lr,
                use_binary=args.use_binary, regenerate_dataset=args.regenerate,
-               use_scheduler=args.use_scheduler, device=device)
+               use_scheduler=args.use_scheduler, device=device, patience=args.patience)
 
 
 
