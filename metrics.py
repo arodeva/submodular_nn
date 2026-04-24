@@ -410,7 +410,7 @@ def run_trials(function_name, n_trials, learning_rate, use_binary, regenerate_da
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--function", type=str, default="log", choices=["log", "logdet", "fl", "monotone_gcut"])
+    parser.add_argument("--function", type=str, default="log", choices=["log", "logdet", "fl", "monotone_gcut", "small_monotone_gcut"])
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--n_trials", type=int, default=5)
     parser.add_argument("--use_binary", action="store_true", default=True)
